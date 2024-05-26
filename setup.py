@@ -12,7 +12,7 @@ attrs['name'] = attrs['pypi_name']
 
 
 setup(
- py_modules=['jinja2-easy'],
+ py_modules=['jinja2-easy.generator'],
  install_requires=['platformdirs', 'jinja2'],
  **attrs
 )
