@@ -1,18 +1,13 @@
-from setuptools import setup
-
-import conf
-
-attrs={}
-
-for i in dir(conf):
-    if not i.startswith('_'):
-        attrs[i] = getattr(conf, i)
-
-attrs['name'] = attrs['pypi_name']
+from setuptools import setup, find_packages
 
 
 setup(
- py_modules=['jinja2-easy'],
- install_requires=['platformdirs', 'jinja2'],
- **attrs
+ name="jinja2-easy.generator",
+ version="0.0.1",
+ description = "Jinja2 easy generator",
+ summary = "Jinja2 easy generator",
+ license = "GPLv3",
+ url = "https://github.com/huakim/python-jinja2_easy",
+ packages=['jinja2_easy'],
 )
+
