@@ -36,18 +36,20 @@ class Generator:
         return template.render(data).encode('utf-8')
 
     def get_template_dirs(self):
+        
         """existing directories where to search for jinja2 templates. The order
     is important. The first found template from the first found dir wins!"""
+        name=self.name
         return filter(lambda x: path.exists(x), [
             path.join(i, "templates") for i in (
         # user dir
-            path.join(path.expanduser('~'), '.py2pack'),
-            platformdirs.user_data_dir(appname="py2pack"),
-            platformdirs.user_config_dir(appname="py2pack"),
+            path.join(path.expanduser('~'), f".{name}"),
+            platformdirs.user_data_dir(appname=name),
+            platformdirs.user_config_dir(appname=name),
         # usually inside the site-packages dir
             self.dir,
         # system wide dir
-            *platformdirs.site_data_dir(appname="py2pack", multipath=True).split(":"),
+            *platformdirs.site_data_dir(appname=name, multipath=True).split(":"),
         )])
 
     def prepare_template_env(self):
