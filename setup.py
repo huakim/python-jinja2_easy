@@ -9,6 +9,6 @@ setup(
  license = "GPLv3",
  url = "https://github.com/huakim/python-jinja2_easy",
  packages=['jinja2_easy'],
- install_requires=['platformdirs'],
+ install_requires=['platformdirs', 'jinja2'],
 )
 
