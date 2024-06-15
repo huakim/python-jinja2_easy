@@ -3,9 +3,22 @@ import jinja2
 import platformdirs
 
 class Generator:
-    def __init__(self, name, dir=path.dirname(path.abspath(__file__))):
+    def __init__(self, name, dir=path.dirname(path.abspath(__file__)),
+    extra_dirs=[]):
         self.name = name
         self.dir = dir
+        self.extra_dirs = extra_dirs
+        self.template_dirs = [
+            path.join(i, "templates") for i in (
+        # user dir
+            path.join(path.expanduser('~'), f".{name}"),
+            platformdirs.user_data_dir(appname=name),
+            platformdirs.user_config_dir(appname=name),
+        # usually inside the site-packages dir
+            dir,
+        # system wide dir
+            *platformdirs.site_data_dir(appname=name, multipath=True).split(":"),
+        )] + extra_dirs
 
     def default_file_template(self):
         return self.file_template_list()[0]
@@ -39,18 +52,7 @@ class Generator:
         
         """existing directories where to search for jinja2 templates. The order
     is important. The first found template from the first found dir wins!"""
-        name=self.name
-        return filter(lambda x: path.exists(x), [
-            path.join(i, "templates") for i in (
-        # user dir
-            path.join(path.expanduser('~'), f".{name}"),
-            platformdirs.user_data_dir(appname=name),
-            platformdirs.user_config_dir(appname=name),
-        # usually inside the site-packages dir
-            self.dir,
-        # system wide dir
-            *platformdirs.site_data_dir(appname=name, multipath=True).split(":"),
-        )])
+        return filter(lambda x: path.exists(x), self.template_dirs)
 
     def prepare_template_env(self):
     # setup jinja2 environment with custom filters
